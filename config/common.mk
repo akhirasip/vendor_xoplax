@@ -1,4 +1,4 @@
-PRODUCT_BRAND ?= cyanogenmod
+PRODUCT_BRAND ?= xoplax-os
 
 SUPERUSER_EMBEDDED := true
 SUPERUSER_PACKAGE_PREFIX := com.android.settings.cyanogenmod.superuser
@@ -36,12 +36,12 @@ PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/$(TARGET_BOOTAN
 endif
 endif
 
-ifdef CM_NIGHTLY
+ifdef XOPLAX_NIGHTLY
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.rommanager.developerid=cyanogenmodnightly
+    ro.rommanager.developerid=xoplax-nightly
 else
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.rommanager.developerid=cyanogenmod
+    ro.rommanager.developerid=xoplax-release
 endif
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
@@ -88,7 +88,7 @@ PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
     vendor/cm/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
     vendor/cm/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh \
-    vendor/cm/prebuilt/common/bin/blacklist:system/addon.d/blacklist
+    vendor/cm/prebuilt/common/bin/blacklist:system/addon.d/blacklist 
 endif
 
 # Signature compatibility validation
@@ -98,6 +98,10 @@ PRODUCT_COPY_FILES += \
 # init.d support
 PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
+    vendor/cm/prebuilt/common/etc/init.d/99mediaserverkiller:system/etc/init.d/99mediaserverkiller \
+    vendor/cm/prebuilt/common/etc/init.d/05netspeed:system/etc/init.d/05netspeed \
+    vendor/cm/prebuilt/common/etc/init.d/99zram:system/etc/init.d/99zram \
+    vendor/cm/prebuilt/common/etc/init.d/99Batterysaver:system/etc/init.d/99Batterysaver \
     vendor/cm/prebuilt/common/bin/sysinit:system/bin/sysinit
 
 # userinit support
@@ -125,6 +129,21 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cm/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
 
+# Bring in Xoplax LS
+PRODUCT_COPY_FILES += \
+    vendor/cm/prebuilt/common/addon.d/01_lockscreen.sh:system/addon.d/01_lockscreen.sh \
+    vendor/cm/prebuilt/common/priv-app/CMKeyguard.apk:system/priv-app/CMKeyguard.apk 
+
+# We replace DSP Manager to MAXX Audio
+PRODUCT_COPY_FILES += \
+    vendor/cm/prebuilt/common/app/MaxxAudio.apk:system/app/MaxxAudio.apk \
+    vendor/cm/prebuilt/common/lib/libEQGraphLib.so:system/lib/libEQGraphLib.so \
+    vendor/cm/prebuilt/common/lib/libMA3-processcode-Coretex_A9.so:system/lib/libMA3-processcode-Coretex_A9.so \
+    vendor/cm/prebuilt/common/lib/libMA3-waves-Coretex_A9.so:system/lib/libMA3-wavesfx-Coretex_A9.so \
+    vendor/cm/prebuilt/common/lib/libosl-maxxaudio-itf.so:system/lib/libosl-maxxaudio-itf.so \
+    vendor/cm/prebuilt/common/lib/libwavesfxservice.so:system/lib/libwavesfxservice.so \
+    vendor/cm/prebuilt/common/lib/soundfx/libmaxxeffect-cembedded.so:system/lib/soundfx/libmaxxeffect-cembedded.so
+
 # T-Mobile theme engine
 include vendor/cm/config/themes_common.mk
 
@@ -144,8 +163,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     Launcher3 \
     Trebuchet \
-    DSPManager \
-    libcyanogen-dsp \
     audio_effects.conf \
     CMWallpapers \
     Apollo \
@@ -233,9 +250,9 @@ endif
 
 PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
-PRODUCT_VERSION_MAJOR = 11
-PRODUCT_VERSION_MINOR = 0
-PRODUCT_VERSION_MAINTENANCE = 0-RC0
+PRODUCT_VERSION_MAJOR = 0
+PRODUCT_VERSION_MINOR = 1
+PRODUCT_VERSION_MAINTENANCE = 1-IP1
 
 # Set CM_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
 
@@ -275,7 +292,7 @@ ifdef CM_BUILDTYPE
     endif
 else
     # If CM_BUILDTYPE is not defined, set to UNOFFICIAL
-    CM_BUILDTYPE := UNOFFICIAL
+    CM_BUILDTYPE := HOMEMADE
     CM_EXTRAVERSION :=
 endif
 
