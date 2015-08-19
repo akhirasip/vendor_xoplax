@@ -24,9 +24,10 @@ echo "  /  \   "
 echo " "
 
 # setup environment
-echo -e ${bldblu}"Setting up environment"${txtrst}
+echo -e ${bldblu}"Setting up environment..."${txtrst}
 . build/envsetup.sh
 
+echo " "
 echo ${bldred}"WILL BUILD.."${txtrst}
 echo ${bldcya}"XOPLAX OS"${txtrst}
 echo " "
@@ -39,11 +40,15 @@ lunch cm_$1-$BUILDVAR
 
 echo " "
 echo ${bldgrn}"Will build WebView from source!"${txtrst}
-echo " "
 echo ${bldred}"Will be use O3 Optimization level!"${txtrst}
 export TARGET_USE_O_LEVEL_3=true
 echo " "
+echo ${bldgrn}"Set up the ccache and set max size to 30GiB!"${txtrst}
+export USE_CCACHE=1
+ccache -M 30G
+echo " "
 
+echo ${bldred}"Starting the real build.."${txtrst}
 make -j"$opt_jobs" bacon
 vendor/cm/tools/bcom.sh $1
 
