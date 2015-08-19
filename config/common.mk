@@ -139,7 +139,7 @@ PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/app/MaxxAudio.apk:system/app/MaxxAudio.apk \
     vendor/cm/prebuilt/common/lib/libEQGraphLib.so:system/lib/libEQGraphLib.so \
     vendor/cm/prebuilt/common/lib/libMA3-processcode-Coretex_A9.so:system/lib/libMA3-processcode-Coretex_A9.so \
-    vendor/cm/prebuilt/common/lib/libMA3-waves-Coretex_A9.so:system/lib/libMA3-wavesfx-Coretex_A9.so \
+    vendor/cm/prebuilt/common/lib/libMA3-wavesfx-Coretex_A9.so:system/lib/libMA3-wavesfx-Coretex_A9.so \
     vendor/cm/prebuilt/common/lib/libosl-maxxaudio-itf.so:system/lib/libosl-maxxaudio-itf.so \
     vendor/cm/prebuilt/common/lib/libwavesfxservice.so:system/lib/libwavesfxservice.so \
     vendor/cm/prebuilt/common/lib/soundfx/libmaxxeffect-cembedded.so:system/lib/soundfx/libmaxxeffect-cembedded.so
@@ -246,8 +246,8 @@ endif
 
 PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
-PRODUCT_VERSION_MAJOR = 0
-PRODUCT_VERSION_MINOR = 1
+PRODUCT_VERSION_MAJOR = 11
+PRODUCT_VERSION_MINOR = 0
 PRODUCT_VERSION_MAINTENANCE = 1-IP1
 
 # Set CM_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
@@ -292,7 +292,7 @@ else
     CM_EXTRAVERSION :=
 endif
 
-ifeq ($(CM_BUILDTYPE), UNOFFICIAL)
+ifeq ($(CM_BUILDTYPE), HOMEMADE)
     ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
         CM_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
     endif
