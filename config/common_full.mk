@@ -13,8 +13,6 @@ PRODUCT_PACKAGES += \
     MagicSmokeWallpapers \
     NoiseField \
     PhaseBeam \
-    VisualizationWallpapers \
-    PhotoTable \
     SoundRecorder \
     PhotoPhase \
     CMSettingsProvider
