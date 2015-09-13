@@ -232,9 +232,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PACKAGE_OVERLAYS += vendor/xoplax/overlay/common
 
-PRODUCT_VERSION_MAJOR = 12
-PRODUCT_VERSION_MINOR = 1
-PRODUCT_VERSION_MAINTENANCE = 0-RC0
+#PRODUCT_VERSION_MAJOR = 12
+#PRODUCT_VERSION_MINOR = 1
+#PRODUCT_VERSION_MAINTENANCE = 0-RC0
 
 # Set CM_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
 
@@ -252,7 +252,7 @@ ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(CM_BUILDTYPE)),)
 endif
 
 ifdef CM_BUILDTYPE
-    ifneq ($(CM_BUILDTYPE), SNAPSHOT)
+    ifneq ($(CM_BUILDTYPE), EXPERIMENTAL)
         ifdef CM_EXTRAVERSION
             # Force build type to EXPERIMENTAL
             CM_BUILDTYPE := EXPERIMENTAL
@@ -273,44 +273,46 @@ ifdef CM_BUILDTYPE
         endif
     endif
 else
-    # If CM_BUILDTYPE is not defined, set to UNOFFICIAL
+    # If CM_BUILDTYPE is not defined, set to HOMEMADE
     CM_BUILDTYPE := HOMEMADE
     CM_EXTRAVERSION :=
 endif
 
 ifeq ($(CM_BUILDTYPE), HOMEMADE)
     ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
-        CM_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
+        CM_EXTRAVERSION := -$(TARGET_HOMEMADE_BUILDER_ID)
     endif
 endif
 
 ifeq ($(CM_BUILDTYPE), RELEASE)
-    ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
-    else
-        ifeq ($(TARGET_BUILD_VARIANT),user)
-            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
-        else
-            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
-        endif
-    endif
-else
-    ifeq ($(PRODUCT_VERSION_MINOR),0)
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
-    else
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
-    endif
+#    ifndef TARGET_VENDOR_RELEASE_BUILD_ID
+        XOPLAX_VERSION := $(PREVIEW_VERSION)-$(XOPLAX_BASE)
+	CM_VERSION ?= $(XOPLAX_VERSION)
+#    else
+#        ifeq ($(TARGET_BUILD_VARIANT),user)
+#            CM_VERSION := $(PREVIEW_VERSION)-$(XOPLAX_BASE)
+#        else
+#            CM_VERSION := $(PREVIEW_VERSION)-$(XOPLAX_BASE)
+#        endif
+#    endif
+#else
+#    ifeq ($(PRODUCT_VERSION_MINOR),0)
+#        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+#    else
+#        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+#    endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.version=$(CM_VERSION) \
+  ro.cm.version=$(XOPLAX_VERSION) \
   ro.cm.releasetype=$(CM_BUILDTYPE) \
-  ro.modversion=$(CM_VERSION) \
-  ro.cmlegal.url=https://cyngn.com/legal/privacy-policy
+  ro.modversion=$(XOPLAX_VERSION) \
+  ro.cmlegal.url=https://vps.kliksite.com
 
 -include vendor/cm-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := $(CM_VERSION)
+XOPLAX_DISPLAY_VERSION := $(XOPLAX_VERSION)
+CM_DISPLAY_VERSION ?= $(XOPLAX_DISPLAY_VERSION)
 
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
