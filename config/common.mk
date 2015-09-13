@@ -1,6 +1,7 @@
 PRODUCT_BRAND ?= xoplax-os
 
 PREVIEW_VERSION ?= 1011
+XOPLAX_BASE := LP
 
 ifneq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
 # determine the smaller dimension
