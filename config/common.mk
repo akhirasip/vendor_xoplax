@@ -1,5 +1,8 @@
 PRODUCT_BRAND ?= xoplax-os
 
+PREVIEW_VERSION := 1011
+XOPLAX_BASE := KK
+
 SUPERUSER_EMBEDDED := true
 SUPERUSER_PACKAGE_PREFIX := com.android.settings.cyanogenmod.superuser
 
@@ -13,7 +16,7 @@ TARGET_BOOTANIMATION_SIZE := $(shell \
   fi )
 
 # get a sorted list of the sizes
-bootanimation_sizes := $(subst .zip,, $(shell ls vendor/cm/prebuilt/common/bootanimation))
+bootanimation_sizes := $(subst .zip,, $(shell ls vendor/xoplax/prebuilt/common/bootanimation))
 bootanimation_sizes := $(shell echo -e $(subst $(space),'\n',$(bootanimation_sizes)) | sort -rn)
 
 # find the appropriate size and set
@@ -30,9 +33,9 @@ endef
 $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size)))
 
 ifeq ($(TARGET_BOOTANIMATION_HALF_RES),true)
-PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
+PRODUCT_BOOTANIMATION := vendor/xoplax/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
 else
-PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
+PRODUCT_BOOTANIMATION := vendor/xoplax/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
 endif
 endif
 
@@ -80,42 +83,42 @@ endif
 
 # Copy over the changelog to the device
 PRODUCT_COPY_FILES += \
-    vendor/cm/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
+    vendor/xoplax/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
 
 # Backup Tool
 ifneq ($(WITH_GMS),true)
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
-    vendor/cm/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
-    vendor/cm/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh \
-    vendor/cm/prebuilt/common/bin/blacklist:system/addon.d/blacklist 
+    vendor/xoplax/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
+    vendor/xoplax/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
+    vendor/xoplax/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh \
+    vendor/xoplax/prebuilt/common/bin/blacklist:system/addon.d/blacklist 
 endif
 
 # Signature compatibility validation
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/otasigcheck.sh:system/bin/otasigcheck.sh
+    vendor/xoplax/prebuilt/common/bin/otasigcheck.sh:system/bin/otasigcheck.sh
 
 # init.d support
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
-    vendor/cm/prebuilt/common/etc/init.d/99mediaserverkiller:system/etc/init.d/99mediaserverkiller \
-    vendor/cm/prebuilt/common/etc/init.d/05netspeed:system/etc/init.d/05netspeed \
-    vendor/cm/prebuilt/common/etc/init.d/99zram:system/etc/init.d/99zram \
-    vendor/cm/prebuilt/common/etc/init.d/99Batterysaver:system/etc/init.d/99Batterysaver \
-    vendor/cm/prebuilt/common/bin/sysinit:system/bin/sysinit
+    vendor/xoplax/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
+    vendor/xoplax/prebuilt/common/etc/init.d/99mediaserverkiller:system/etc/init.d/99mediaserverkiller \
+    vendor/xoplax/prebuilt/common/etc/init.d/05netspeed:system/etc/init.d/05netspeed \
+    vendor/xoplax/prebuilt/common/etc/init.d/99zram:system/etc/init.d/99zram \
+    vendor/xoplax/prebuilt/common/etc/init.d/99Batterysaver:system/etc/init.d/99Batterysaver \
+    vendor/xoplax/prebuilt/common/bin/sysinit:system/bin/sysinit
 
 # userinit support
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
+    vendor/xoplax/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
 
 # CM-specific init file
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.local.rc:root/init.cm.rc
+    vendor/xoplax/prebuilt/common/etc/init.local.rc:root/init.cm.rc
 
 # Bring in camera effects
 PRODUCT_COPY_FILES +=  \
-    vendor/cm/prebuilt/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
-    vendor/cm/prebuilt/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
+    vendor/xoplax/prebuilt/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
+    vendor/xoplax/prebuilt/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -125,27 +128,27 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/base/data/keyboards/Vendor_045e_Product_028e.kl:system/usr/keylayout/Vendor_045e_Product_0719.kl
 
-# This is CM!
+# Include CM permission
 PRODUCT_COPY_FILES += \
-    vendor/cm/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
+    vendor/xoplax/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
 
 # Bring in Xoplax LS
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/addon.d/01_lockscreen.sh:system/addon.d/01_lockscreen.sh \
-    vendor/cm/prebuilt/common/priv-app/CMKeyguard.apk:system/priv-app/CMKeyguard.apk 
+    vendor/xoplax/prebuilt/common/addon.d/01_lockscreen.sh:system/addon.d/01_lockscreen.sh \
+    vendor/xoplax/prebuilt/common/priv-app/CMKeyguard.apk:system/priv-app/CMKeyguard.apk 
 
 # We replace DSP Manager to MAXX Audio
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/app/MaxxAudio.apk:system/app/MaxxAudio.apk \
-    vendor/cm/prebuilt/common/lib/libEQGraphLib.so:system/lib/libEQGraphLib.so \
-    vendor/cm/prebuilt/common/lib/libMA3-processcode-Coretex_A9.so:system/lib/libMA3-processcode-Coretex_A9.so \
-    vendor/cm/prebuilt/common/lib/libMA3-wavesfx-Coretex_A9.so:system/lib/libMA3-wavesfx-Coretex_A9.so \
-    vendor/cm/prebuilt/common/lib/libosl-maxxaudio-itf.so:system/lib/libosl-maxxaudio-itf.so \
-    vendor/cm/prebuilt/common/lib/libwavesfxservice.so:system/lib/libwavesfxservice.so \
-    vendor/cm/prebuilt/common/lib/soundfx/libmaxxeffect-cembedded.so:system/lib/soundfx/libmaxxeffect-cembedded.so
+    vendor/xoplax/prebuilt/common/app/MaxxAudio.apk:system/app/MaxxAudio.apk \
+    vendor/xoplax/prebuilt/common/lib/libEQGraphLib.so:system/lib/libEQGraphLib.so \
+    vendor/xoplax/prebuilt/common/lib/libMA3-processcode-Coretex_A9.so:system/lib/libMA3-processcode-Coretex_A9.so \
+    vendor/xoplax/prebuilt/common/lib/libMA3-wavesfx-Coretex_A9.so:system/lib/libMA3-wavesfx-Coretex_A9.so \
+    vendor/xoplax/prebuilt/common/lib/libosl-maxxaudio-itf.so:system/lib/libosl-maxxaudio-itf.so \
+    vendor/xoplax/prebuilt/common/lib/libwavesfxservice.so:system/lib/libwavesfxservice.so \
+    vendor/xoplax/prebuilt/common/lib/soundfx/libmaxxeffect-cembedded.so:system/lib/soundfx/libmaxxeffect-cembedded.so
 
 # T-Mobile theme engine
-include vendor/cm/config/themes_common.mk
+include vendor/xoplax/config/themes_common.mk
 
 # Required CM packages
 PRODUCT_PACKAGES += \
@@ -244,11 +247,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 endif
 
-PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
+PRODUCT_PACKAGE_OVERLAYS += vendor/xoplax/overlay/common
 
-PRODUCT_VERSION_MAJOR = 11
-PRODUCT_VERSION_MINOR = 0
-PRODUCT_VERSION_MAINTENANCE = 1-IP1
+#PRODUCT_VERSION_MAJOR = 11
+#PRODUCT_VERSION_MINOR = 0
+#PRODUCT_VERSION_MAINTENANCE = 1-IP1
 
 # Set CM_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
 
@@ -266,7 +269,7 @@ ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(CM_BUILDTYPE)),)
 endif
 
 ifdef CM_BUILDTYPE
-    ifneq ($(CM_BUILDTYPE), SNAPSHOT)
+    ifneq ($(CM_BUILDTYPE), EXPERIMENTAL)
         ifdef CM_EXTRAVERSION
             # Force build type to EXPERIMENTAL
             CM_BUILDTYPE := EXPERIMENTAL
@@ -299,32 +302,37 @@ ifeq ($(CM_BUILDTYPE), HOMEMADE)
 endif
 
 ifeq ($(CM_BUILDTYPE), RELEASE)
-    ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
-    else
-        ifeq ($(TARGET_BUILD_VARIANT),user)
-            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
-        else
-            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
-        endif
-    endif
+	XOPLAX_VERSION := $(PREVIEW_VERSION)-$(XOPLAX_BASE)
+	CM_VERSION ?= $(XOPLAX_VERSION)
+#    ifndef TARGET_VENDOR_RELEASE_BUILD_ID
+#        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+#    else
+#        ifeq ($(TARGET_BUILD_VARIANT),user)
+#            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
+#        else
+#            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+#        endif
+#    endif
 else
-    ifeq ($(PRODUCT_VERSION_MINOR),0)
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
-    else
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
-    endif
+    	XOPLAX_VERSION := $(PREVIEW_VERSION)-$(XOPLAX_BASE)
+	CM_VERSION ?= $(XOPLAX_VERSION)
+#    ifeq ($(PRODUCT_VERSION_MINOR),0)
+#        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+#    else
+#        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+#    endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.version=$(CM_VERSION) \
+  ro.cm.version=$(XOPLAX_VERSION) \
   ro.cm.releasetype=$(CM_BUILDTYPE) \
-  ro.modversion=$(CM_VERSION) \
+  ro.modversion=$(XOPLAX_VERSION) \
   ro.cmlegal.url=https://cyngn.com/legal/privacy-policy
 
 -include vendor/cm-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := $(CM_VERSION)
+XOPLAX_DISPLAY_VERSION := $(XOPLAX_VERSION)
+CM_DISPLAY_VERSION ?= $(XOPLAX_DISPLAY_VERSION)
 
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)

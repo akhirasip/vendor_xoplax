@@ -1,14 +1,14 @@
-# Inherit common CM stuff
-$(call inherit-product, vendor/cm/config/common.mk)
+# Inherit common XOPLAX stuff
+$(call inherit-product, vendor/xoplax/config/common.mk)
 
 # Bring in all video files
 $(call inherit-product, frameworks/base/data/videos/VideoPackage2.mk)
 
 # Include CM audio files
-include vendor/cm/config/cm_audio.mk
+include vendor/xoplax/config/cm_audio.mk
 
 # Include CM LatinIME dictionaries
-PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
+PRODUCT_PACKAGE_OVERLAYS += vendor/xoplax/overlay/dictionaries
 
 # Optional CM packages
 PRODUCT_PACKAGES += \
@@ -19,18 +19,8 @@ PRODUCT_PACKAGES += \
     MagicSmokeWallpapers \
     NoiseField \
     PhaseBeam \
-    VisualizationWallpapers \
-    PhotoTable \
     SoundRecorder \
     PhotoPhase
-
-PRODUCT_PACKAGES += \
-    VideoEditor \
-    libvideoeditor_jni \
-    libvideoeditor_core \
-    libvideoeditor_osal \
-    libvideoeditor_videofilters \
-    libvideoeditorplayer
 
 # Extra tools in CM
 PRODUCT_PACKAGES += \
