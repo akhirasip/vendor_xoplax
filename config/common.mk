@@ -80,6 +80,10 @@ endif
 PRODUCT_COPY_FILES += \
     vendor/xoplax/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
 
+# Copy our Wallpapers APK
+PRODUCT_COPY_FILES += \
+    vendor/xoplax/prebuilt/common/app/XOS-Wallpaper.apk:system/app/XOS-Wallpaper/XOS-Wallpaper.apk
+
 # Backup Tool
 ifneq ($(WITH_GMS),true)
 PRODUCT_COPY_FILES += \
@@ -151,7 +155,6 @@ PRODUCT_PACKAGES += \
     Eleven \
     LockClock \
     CMUpdater \
-    CMAccount \
     CMHome \
     CyanogenSetupWizard
 
@@ -165,10 +168,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     org.cyanogenmod.hardware \
     org.cyanogenmod.hardware.xml
-
-# Other packages
-PRODUCT_PACKAGES += \
-    KernelAdiutor 
 
 # Extra tools in XoplaX
 PRODUCT_PACKAGES += \
